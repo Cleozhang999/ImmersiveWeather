@@ -137,8 +137,8 @@ public final class WeatherEnvironmentEntity: Entity {
             emitter.speed = 7
             emitter.speedVariation = 1
             emitter.mainEmitter.birthRate = 150 * footprint * density
-            emitter.mainEmitter.size = 0.012
-            emitter.mainEmitter.stretchFactor = 10
+            emitter.mainEmitter.size = 0.006
+            emitter.mainEmitter.stretchFactor = 14
             emitter.mainEmitter.billboardMode = .billboard
             // Slightly darker than white so streaks still read against a pale overcast sky.
             emitter.mainEmitter.color = .constant(.single(.init(red: 0.72, green: 0.76, blue: 0.82, alpha: 0.75)))

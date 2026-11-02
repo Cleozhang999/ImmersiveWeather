@@ -1,6 +1,6 @@
 # ImmersiveWeather
 
-![A pond in the rain, with falling rain and ripples on the water.](Docs/weather-rainy.jpg)
+![A wetland in the rain: reed islands, open water with ripples, and falling rain.](Docs/weather-rainy.jpg)
 
 Weather-driven environments for RealityKit immersive spaces:
 
@@ -12,7 +12,7 @@ Weather (`clearMorning`, `clearNight`, `foggy`, `rainy`, `snowy`) and *water moo
 
 ## Gallery
 
-All five conditions use the same scene. The sky, lighting, rain, snow and water come from this package, and the grass from [RealityGrass](https://github.com/Cleozhang999/RealityGrass).
+All five conditions use the same wetland: fractal noise shapes the ground, and wherever it dips below the water line a single `WaterSurfaceEntity` shows through. That leaves long reed islands of [RealityGrass](https://github.com/Cleozhang999/RealityGrass) (`.muted` palette, `minHeight` keeping the grass out of the water) between open water. The sky, lighting, rain, snow and water come from this package.
 
 | | |
 |---|---|
@@ -23,7 +23,7 @@ All five conditions use the same scene. The sky, lighting, rain, snow and water 
 | ![Snowy](Docs/weather-snowy.jpg) | |
 | `snowy` | |
 
-*Rendered offscreen with RealityKit on macOS. The sky panoramas are renders from the NEST XR project by Cleo Zhang. They are not part of the package.*
+*Rendered offscreen with RealityKit on macOS. The skies are procedural gradients made for these screenshots. They are not part of the package.*
 
 ## Requirements
 
