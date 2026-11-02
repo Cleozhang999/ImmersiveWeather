@@ -1,4 +1,5 @@
 import Foundation
+import RealityKit
 import Testing
 @testable import ImmersiveWeather
 
@@ -59,5 +60,38 @@ import Testing
             ambientAudio: nil))
         #expect(catalog.names(.snowy).ambientAudio == "rain.mp3")
         #expect(catalog.names(.snowy).skybox == "Meadow_sky_rainy.png")
+    }
+}
+
+@MainActor
+@Suite struct PrecipitationTests {
+    @Test func onlyRainAndSnowFall() {
+        for condition in WeatherCondition.allCases {
+            let emitter = WeatherEnvironmentEntity.precipitationEmitter(for: condition, area: [8, 5, 8], density: 1)
+            #expect((emitter != nil) == condition.hasPrecipitation, "\(condition)")
+        }
+    }
+
+    @Test func snowFallsSlowerThanRain() throws {
+        let rain = try #require(WeatherEnvironmentEntity.precipitationEmitter(for: .rainy, area: [8, 5, 8], density: 1))
+        let snow = try #require(WeatherEnvironmentEntity.precipitationEmitter(for: .snowy, area: [8, 5, 8], density: 1))
+        #expect(snow.speed < rain.speed)
+        #expect(rain.emissionDirection == [0, -1, 0])
+        #expect(rain.emitterShapeSize == [8, 0.1, 8])
+    }
+
+    @Test func densityScalesBirthRate() throws {
+        let light = try #require(WeatherEnvironmentEntity.precipitationEmitter(for: .rainy, area: [4, 5, 4], density: 0.5))
+        let heavy = try #require(WeatherEnvironmentEntity.precipitationEmitter(for: .rainy, area: [4, 5, 4], density: 2))
+        #expect(heavy.mainEmitter.birthRate == light.mainEmitter.birthRate * 4)
+    }
+
+    @Test func entityStartsAndStopsPrecipitation() async {
+        let environment = WeatherEnvironmentEntity()
+        let catalog = WeatherAssetCatalog { _ in WeatherAssetNames() }
+        await environment.apply(.snowy, from: catalog)
+        #expect(environment.children.contains { $0.components.has(ParticleEmitterComponent.self) })
+        await environment.apply(.clearMorning, from: catalog)
+        #expect(!environment.children.contains { $0.components.has(ParticleEmitterComponent.self) })
     }
 }
